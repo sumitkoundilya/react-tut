@@ -41,7 +41,7 @@ function App() {
         </Navbar>
       </div>
       <header className="App-header">
-        <h1>{header} Details</h1>
+        <h1>{header}</h1>
       </header>
       <div>
         <AppRoutes setHeader={setHeader} routeTo={navLists[0].link}></AppRoutes>

@@ -4,7 +4,7 @@ const Cart = ({ setHeader }) => {
   const [cart, setCart] = useState(null);
   const [products, setProducts] = useState([]);
 
-  setHeader("Carts");
+  setHeader("Carts Details");
 
   useEffect(() => {
     const fetchCart = async () => {

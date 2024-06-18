@@ -4,7 +4,7 @@ export default function Actors({ setHeader }) {
   const [peoples, setPeoples] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  setHeader("Actors");
+  setHeader("Actors Details");
 
   useEffect(() => {
     async function getDetails() {
