@@ -3,10 +3,9 @@ import { useEffect, useState } from "react";
 export default function Actors({ setHeader }) {
   const [peoples, setPeoples] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  setHeader("Actors Details");
-
+  
   useEffect(() => {
+    setHeader("Actors Details");
     async function getDetails() {
       const res = await fetch("https://swapi.dev/api/people");
       const data = await res.json();

@@ -4,9 +4,8 @@ const Cart = ({ setHeader }) => {
   const [cart, setCart] = useState(null);
   const [products, setProducts] = useState([]);
 
-  setHeader("Carts Details");
-
   useEffect(() => {
+    setHeader("Carts Details");
     const fetchCart = async () => {
       try {
         const cartResponse = await fetch("https://fakestoreapi.com/carts/2");

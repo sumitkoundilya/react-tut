@@ -26,7 +26,7 @@ function App() {
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="me-auto">
                 {navLists.map((nav) => (
-                  <Nav.Link href={nav.link}>{nav.name}</Nav.Link>
+                  <Nav.Link key={nav.link} href={nav.link}>{nav.name}</Nav.Link>
                 ))}
                 {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                   <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
