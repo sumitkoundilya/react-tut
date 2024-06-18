@@ -1,63 +1,45 @@
-import { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchActors } from '../redux/actions/actorsActions';
 
-export default function Actors({ setHeader }) {
-  const [peoples, setPeoples] = useState([]);
-  const [loading, setLoading] = useState(true);
-  
+const Actors = ({ setHeader }) => {
+  const dispatch = useDispatch();
+  const actorsState = useSelector(state => state.actors);
+
   useEffect(() => {
     setHeader("Actors Details");
-    async function getDetails() {
-      const res = await fetch("https://swapi.dev/api/people");
-      const data = await res.json();
-
-      const updatedData = await Promise.all(
-        data.results.map(async (person) => {
-          const movies = await Promise.all(
-            person.films.map(async (filmUrl) => {
-              const filmRes = await fetch(filmUrl);
-              const filmData = await filmRes.json();
-              return filmData.title;
-            })
-          );
-          return {
-            ...person,
-            filmsName: movies,
-          };
-        })
-      );
-
-      setPeoples(updatedData);
-      setLoading(false);
+    if (!actorsState.actors.length) { // Check if actors are already loaded
+      dispatch(fetchActors());
     }
+  }, [dispatch, setHeader, actorsState.actors.length]); // Dependency array includes actorsState.actors.length
 
-    getDetails();
-  }, []);
+  if (actorsState.loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
-      {loading ? (
-        <div>Loading...</div>
-      ) : (
-        <ul>
-          {peoples.map((person) => (
-            <li key={person.name}>
-              <div>
-                <h2>{person.name}</h2>
-                <h5>Gender : {person.gender}</h5>
-                <h5>Birth Year : {person.birth_year}</h5>
-                <h5>Eye Colour : {person.eye_color}</h5>
-              </div>
-              <div>
-                <ul>
-                  {person.filmsName.map((film, index) => (
-                    <li key={index}>{film}</li>
-                  ))}
-                </ul>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
+      <ul>
+        {actorsState.actors.map((person) => (
+          <li key={person.name}>
+            <div>
+              <h2>{person.name}</h2>
+              <h5>Gender : {person.gender}</h5>
+              <h5>Birth Year : {person.birth_year}</h5>
+              <h5>Eye Colour : {person.eye_color}</h5>
+            </div>
+            <div>
+              <ul>
+                {person.filmsName.map((film, index) => (
+                  <li key={index}>{film}</li>
+                ))}
+              </ul>
+            </div>
+          </li>
+        ))}
+      </ul>
     </>
   );
-}
+};
+
+export default Actors;

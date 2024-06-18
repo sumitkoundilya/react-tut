@@ -1,34 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCart } from '../redux/actions/cartActions';
 
 const Cart = ({ setHeader }) => {
-  const [cart, setCart] = useState(null);
-  const [products, setProducts] = useState([]);
+  const dispatch = useDispatch();
+  const cart = useSelector(state => state.cart.cart);
+  const products = useSelector(state => state.cart.products);
+  const loading = useSelector(state => state.cart.loading);
 
   useEffect(() => {
-    setHeader("Carts Details");
-    const fetchCart = async () => {
-      try {
-        const cartResponse = await fetch("https://fakestoreapi.com/carts/2");
-        const cartData = await cartResponse.json();
-        setCart(cartData);
+    setHeader("Cart Details");
+    if (!cart) {
+      dispatch(fetchCart());
+    }
+  }, [dispatch, setHeader, cart]); // Only dispatch fetchCart when cart is not already loaded
 
-        const productPromises = cartData.products.map(async (product) => {
-          const productResponse = await fetch(`https://fakestoreapi.com/products/${product.productId}`);
-          return productResponse.json();
-        });
-
-        const productsData = await Promise.all(productPromises);
-        setProducts(productsData);
-      } catch (error) {
-        console.error("Error fetching cart or products:", error);
-      }
-    };
-
-    fetchCart();
-  }, []);
-
-  if (!cart) {
+  if (loading) {
     return <div>Loading cart...</div>;
+  }
+
+  if (!cart || products.length === 0) {
+    return <div>Cart is empty.</div>;
   }
 
   return (
