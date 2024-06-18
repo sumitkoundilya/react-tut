@@ -10,6 +10,12 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 
 function App() {
   const [header, setHeader] = useState("");
+
+  const navLists = [
+    { name: "Cart", link: "/cart" },
+    { name: "Actors", link: "/actors" },
+  ];
+
   return (
     <div className="App">
       <div>
@@ -19,8 +25,9 @@ function App() {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="me-auto">
-                <Nav.Link href="/cart">Cart</Nav.Link>
-                <Nav.Link href="/actors">Actors</Nav.Link>
+                {navLists.map((nav) => (
+                  <Nav.Link href={nav.link}>{nav.name}</Nav.Link>
+                ))}
                 {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                   <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                   <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
@@ -37,7 +44,7 @@ function App() {
         <h1>{header} Details</h1>
       </header>
       <div>
-        <AppRoutes setHeader={setHeader}></AppRoutes>
+        <AppRoutes setHeader={setHeader} routeTo={navLists[0].link}></AppRoutes>
       </div>
     </div>
   );
