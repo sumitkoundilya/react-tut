@@ -7,9 +7,11 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import { useNavigate } from "react-router-dom";
 
 function App() {
   const [header, setHeader] = useState("");
+  const navigate = useNavigate();
 
   const navLists = [
     { name: "Cart", link: "/cart" },
@@ -26,7 +28,9 @@ function App() {
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="me-auto">
                 {navLists.map((nav) => (
-                  <Nav.Link key={nav.link} href={nav.link}>{nav.name}</Nav.Link>
+                  <Nav.Link key={nav.link} onClick={() => navigate(nav.link)}>
+                    {nav.name}
+                  </Nav.Link>
                 ))}
                 {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                   <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
